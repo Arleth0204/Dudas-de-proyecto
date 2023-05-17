@@ -1,0 +1,258 @@
+#include <iostream>
+#include <conio.h>
+#include <string.h>
+#include <string>
+#include <stdio.h>
+#include <fstream>
+#include <stdlib.h>
+
+using namespace std;
+//declaracion de variables
+
+struct Escuela
+{
+int  matricula,  calf, calflab,  subtotal;
+string nombre ,status;
+};
+
+
+int contador,alta;
+
+//funciones con void
+void Alta();
+void eliminar();
+void listas();
+void modificar();
+void archivos();
+
+int main()
+{
+	int opc;
+	printf( "1.-Alta \n"); 
+      printf("2.- mostrar \n");
+      printf("3.- limpiar pantalla \n");
+      printf("4.-Modificar \n");
+      printf("5.-Eliminar \n");
+      printf("6.-Salir"  \n");
+      scanf("%d", &opc);
+	
+
+	switch (opc)
+	{
+	case 1:
+		Alta();
+		return main();
+		break;
+
+	case 2:
+		listas();
+		return main();
+		break;
+
+	case 3:
+		system("cls"); //limpiar pantalla
+		return main();
+		break;
+
+	case 4:
+		modificar();
+		return main();
+		break;
+
+	case 5:
+		eliminar();
+		return main();
+		break;
+
+	case 6:
+		archivos();
+		break;
+	}
+}
+void Alta()
+{
+	printf("cuantos registros desea dar de alta \n");
+	scanf("%d", &alta);
+      SIASE = new Escuela[alta]; // uso de new para hacer el arreglo dinamico
+      for (int i = 0; i < alta; i++)
+	{
+
+
+		printf("Ingrese matricula\n");
+            scanf_s("%d", &SIASE[i].matricula);
+		while (getchar() != '\n');            
+            printf("Ingrese nombre\n");
+		getline(cin, SIASE[i].nombre);        
+		printf("Ingrese calf\n");
+            scanf_s("%d", &SIASE[i].calf);
+		printf("Ingrese calf lab\n");
+            scanf_s("%d", &SIASE[i].calflab);
+		
+
+	}
+}
+
+void listas()
+{
+	for (int i = 0; i < alta; i++)
+	{
+		//if (matricula[i] == 0)
+		if(SIASE[i].status == "ELIMINADO")
+		{
+			printf("REGISTRO ELIMINADO",i + 1 \n");
+
+//DUDA nose siu esta correcto el i + 1 \n"); al remplazar << por una coma
+		}
+		else
+		{
+			printf("REGISTRO",i + 1 \n");
+			printf("SIASE[i].matricula \n");
+			printf("SIASE[i].nombre \n");
+			printf("SIASE[i].calf \n");
+			printf("SIASE[i].calflab \n");
+		}
+	}
+}
+void eliminar()
+{
+	int j;
+	printf("ingrese el  registro a eliminar\n");
+      scanf("%d", &j);
+	j = j - 1;
+	for (int i = j; i == j; i++)
+	{
+		printf("Eliminando registro",j + 1 \n");
+		SIASE[i].status = "ELIMINADO";
+		/*
+		matricula[i] = 0;
+		nombre[i] = " ";
+		calf[i] = 0;
+		calflab[i] = 0;
+		*/
+	}
+}
+void modificar()
+{
+	int j, opcion, op2;
+	do
+	{ 
+	printf("ingrese el numero registro a modificar\n");
+	scanf("%d", &j);
+	j = j - 1;                                           
+
+	for (int i = j; i == j; i++)
+	{
+		if ((SIASE[i].status == "ELIMINADO"))
+		{
+			printf("REGISTRO ELIMINADO", i + 1\n");
+			printf("ingrese un registro valido \n");
+			op2 = 1;
+		}
+		else
+		{
+			op2 = 2;
+		}
+	}
+	} 
+      while (op2 == 1);
+	printf("ingrese que desea modificar 1.-Matricula,2.-Nombre, 3.- Calf\n");
+      scanf("%d", &opcion);
+
+	switch (opcion)
+	{
+	case 1:
+		for (int i = j; i == j; i++)
+		{
+			printf("Ingrese matricula \n");
+                  scanf_s("%d", &SIASE[i].matricula);
+		}
+		break;
+	case 2:
+		for (int i = j; i == j; i++)
+		{
+			while (getchar() != '\n');             
+			printf("Ingrese nombre\n");
+			getline(cin, SIASE[i].nombre);
+		}
+		break;
+
+	case 3:
+		for (int i = j; i == j; i++)
+		{
+			printf("Ingrese calf\n");
+                  scanf("%d", &SIASE[i].calf);
+			printf(""Ingrese calf lab\n");
+                  scanf("%d", &SIASE[i].calflab);
+		}
+	}
+
+
+}
+
+void archivos()
+{
+	ofstream archivo;               //clase ifstream para leer archivos
+	string nombrearchivo;
+	int texto;
+	string texto2;
+
+	nombrearchivo = "altasmatricula.txt";
+
+	archivo.open(nombrearchivo.c_str(), ios::out);
+
+	if (archivo.fail())
+	{
+		printf("ERROR NO SE PUDO CREAR EL ARCHIVO\n");
+		exit(1);
+	}
+  
+
+      //DUDA Mi duda es en la parte de en los archivos le ponemos printf porque en el compilador aveces no me lee el archivo pero otras veces si nose si sea por el compilador o lo puedo dejar asi en archivo
+
+
+
+	archivo << "MATRICULA" << "\t";
+	archivo << "NOMBRE" << "\t";
+	archivo << "CALFICACION" << "\t";
+	archivo << "LAB" << "\t";
+	archivo << "PROMFINAL" << "\t";
+	archivo << "STATUS" << "\n";
+
+	for (int i = 0; i < alta; i++)
+	{
+		 if (SIASE[i].status == "ELIMINADO")
+		{
+			 texto2 = "REGISTRO ELIMINADO ";
+			 texto = i;
+			 archivo << texto2 << texto << "\n";
+		}
+		else
+		{
+			texto = SIASE[i].matricula;
+			archivo << texto << "\t" << "\t";
+			texto2 = SIASE[i].nombre;
+			archivo << texto2 << "\t" << "\t";
+			texto = SIASE[i].calf;
+			archivo << texto << "\t " << "\t";
+			texto = SIASE[i].calflab;
+			archivo << texto << "\t " << "\t";
+			SIASE[i].calf = (SIASE[i].calf * .9) + (SIASE[i].calflab * .1);
+			texto = SIASE[i].calf;
+			archivo << texto << "\t " << "\t";
+			if (SIASE[i].calf >= 70)
+			{
+				texto2 = "APROBADO";
+				archivo << texto2 << "\t" << "\n";
+			}
+			else
+			{
+				texto2 = "REPROBADO";
+				archivo << texto2 << "\t" << endl;
+
+			}
+		}
+	}
+
+
+	archivo.close();
+}
